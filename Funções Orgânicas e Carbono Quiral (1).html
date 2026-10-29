@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Funções Orgânicas e Carbono Quiral</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1d2330;--mut:#667085;--line:#d9dde5;--acc:#2563eb;--accbg:#dbe7ff;--ok:#16a34a;--okbg:#dcfce7;--bad:#dc2626;--badbg:#fee2e2;--warn:#d97706;--warnbg:#fef3c7;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10141c;--card:#1a202c;--tx:#e8ecf3;--mut:#9aa4b5;--line:#2c3547;--acc:#6d9bff;--accbg:#22345e;--ok:#4ade80;--okbg:#14351f;--bad:#f87171;--badbg:#3d1b1b;--warn:#fbbf24;--warnbg:#3b2f10;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10141c;--card:#1a202c;--tx:#e8ecf3;--mut:#9aa4b5;--line:#2c3547;--acc:#6d9bff;--accbg:#22345e;--ok:#4ade80;--okbg:#14351f;--bad:#f87171;--badbg:#3d1b1b;--warn:#fbbf24;--warnbg:#3b2f10;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+main{max-width:860px;margin:0 auto;padding:0 14px 40px}
+header.top{padding:22px 0 8px}
+h1{font-size:1.7rem;margin:0 0 4px}h2{font-size:1.3rem;margin:34px 0 10px}
+.sub{color:var(--mut);margin:0}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-weight:600;font-size:.92rem}
+.pill b{color:var(--acc)}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:#fff;padding:7px 16px;font-weight:600}
+button.ghost{background:transparent;color:var(--acc)}button:disabled{opacity:.5;cursor:default}
+.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+.sum h3{margin:0 0 8px;font-size:1.05rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}
+.fn{border-left:4px solid var(--acc);background:var(--bg);padding:6px 10px;border-radius:6px;font-size:.93rem}
+.fn b{display:block}.fn code{font-family:ui-monospace,Menlo,monospace;color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.card.ex{border-color:var(--acc);background:linear-gradient(var(--accbg),var(--accbg)) top/100% 4px no-repeat var(--card)}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.lv{color:var(--warn);letter-spacing:2px;font-size:.8rem}
+.hint{background:var(--warnbg);border-radius:8px;padding:6px 10px;margin:6px 0;font-size:.92rem}
+.mol{position:relative;text-align:center;overflow-x:auto;background:var(--bg);border-radius:10px;padding:6px}
+.mf{position:absolute;top:6px;right:8px;font:600 .85rem ui-monospace,Menlo,monospace;color:var(--mut);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1px 8px}
+.mol svg{max-width:100%;height:auto}
+.chk{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;margin:4px 4px 0 0;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:.93rem;background:var(--card)}
+.chk input{width:18px;height:18px;accent-color:var(--acc)}
+.chk.ok{background:var(--okbg);border-color:var(--ok)}.chk.bad{background:var(--badbg);border-color:var(--bad)}.chk.miss{background:var(--warnbg);border-color:var(--warn);border-style:dashed}
+.fb{margin-top:8px;font-size:.93rem}
+.act{margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+svg line{stroke:var(--tx);stroke-width:2;stroke-linecap:round}
+svg text{font:700 15px system-ui,sans-serif;fill:var(--tx);text-anchor:middle}
+svg text.O{fill:#e5484d}svg text.N{fill:#4f7cff}svg text.Cl{fill:#2fa36b}
+svg .cc{cursor:pointer;outline:none}
+svg .cc circle{fill:transparent;stroke:transparent;stroke-width:2.5}
+svg .cc:hover circle,svg .cc:focus circle{stroke:var(--mut);stroke-dasharray:3 3}
+svg .cc text{display:none;fill:var(--acc);font-size:17px}
+svg .cc.on circle{fill:var(--accbg);stroke:var(--acc);stroke-dasharray:none;fill-opacity:.7}svg .cc.on text{display:block}
+svg .cc.ok text,svg .cc.bad text{display:block}.ex .cc{pointer-events:none}
+svg .cc.ok circle{fill:var(--okbg);stroke:var(--ok);stroke-dasharray:none}svg .cc.ok text{fill:var(--ok)}
+svg .cc.bad circle{fill:var(--badbg);stroke:var(--bad);stroke-dasharray:none}svg .cc.bad text{fill:var(--bad)}
+svg .cc.miss circle{stroke:var(--warn);stroke-dasharray:4 3}
+svg .cc.ok,svg .cc.miss,.lock .cc{pointer-events:none}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><h1>Funções Orgânicas e Carbono Quiral</h1><p class="sub">Atividade interativa de Química · cada exercício começa com um resumo e um exemplo resolvido</p></header>
+<div class="bar"><span class="pill">Funções: <b id="sf">0</b> / <span id="mf">0</span></span><span class="pill">Quiral: <b id="sc">0</b> / <span id="mc">0</span></span><span class="pill">Total: <b id="st">0</b> / <span id="mt">0</span></span><button class="ghost" id="rs">Reiniciar</button></div>
+<div id="app"></div>
+</main>
+<script>
+const FN={alcool:'Álcool',fenol:'Fenol',aldeido:'Aldeído',cetona:'Cetona',acido:'Ácido carboxílico',ester:'Éster',eter:'Éter',amina:'Amina',amida:'Amida',haleto:'Haleto orgânico'};
+const NM=k=>FN[k];
+// Moléculas: [átomos "rótulo:x,y" na malha, ligações "a-b" ou "a=b"]. Vértice "C" = carbono (bastão).
+const EXF={m:["C:0,1 C:1,0 OH:1,-2 C:2,1 O:2,3 OH:3,0","0-1 1-2 1-3 3=4 3-5"],a:['alcool','acido'],e:'Ácido lático. O —OH ligado a um carbono saturado é <b>álcool</b>. No outro carbono, C=O e OH juntos formam o <b>ácido carboxílico</b> (não é cetona nem aldeído, porque o C=O pertence ao —COOH).'};
+const F=[
+{m:["C:0,1 C:1,0 OH:2,1","0-1 1-2"],a:['alcool'],h:'Procure o grupo —OH ligado a um carbono saturado.',e:'Etanol: —OH em carbono saturado.'},
+{m:["C:0,1 C:1,0 C:2,1 O:3,0","0-1 1-2 2=3"],a:['aldeido'],h:'O C=O está na ponta da cadeia (carbono primário).',e:'Propanal: —CHO na extremidade.'},
+{m:["C:0,1 C:1,0 O:1,-2 OH:2,1","0-1 1=2 1-3"],a:['acido'],h:'O mesmo carbono tem C=O e OH.',e:'Ácido etanoico: —COOH.'},
+{m:["C:0,1 C:1,0 O:1,-2 C:2,1 C:3,0","0-1 1=2 1-3 3-4"],a:['cetona'],h:'O C=O está no meio da cadeia, entre dois carbonos.',e:'Butanona: C=O entre dois carbonos.'},
+{m:["C:0,1 C:1,0 O:1,-2 O:2,1 C:3,0 C:4,1","0-1 1=2 1-3 3-4 4-5"],a:['ester'],h:'Veja o que está ligado ao oxigênio de cima.',e:'Etanoato de etila: C=O ligado a O que se liga a outro carbono (—COO—). Não é éter nem cetona.'},
+{m:["C:1,0 C:2,1 C:2,3 C:1,4 C:0,3 C:0,1 OH:1,-2","0=1 1-2 2=3 3-4 4=5 5-0 0-6"],a:['fenol'],e:'Fenol: —OH ligado direto ao anel aromático (se fosse em cadeia aberta, seria álcool).'},
+{m:["C:0,1 O:1,0 C:2,1 C:3,0 NH2:4,1","0-1 1-2 2-3 3-4"],a:['eter','amina'],e:'—O— entre dois carbonos: <b>éter</b>. —NH₂ sem C=O vizinho: <b>amina</b>.'},
+{m:["Cl:0,1 C:1,0 C:2,1 O:2,3 NH2:3,0","0-1 1-2 2=3 2-4"],a:['amida','haleto'],e:'Cl ligado a carbono: <b>haleto orgânico</b>. N ligado ao C=O: <b>amida</b> (não é amina).'},
+{m:["C:1,0 C:2,1 C:2,3 C:1,4 C:0,3 C:0,1 C:3,0 O:3,-2 OH:4,1 O:3,4 C:4,3 O:4,5 C:5,4","0=1 1-2 2=3 3-4 4=5 5-0 1-6 6=7 6-8 2-9 9-10 10=11 10-12"],a:['acido','ester'],e:'Aspirina: —COOH (<b>ácido carboxílico</b>) e —COO— ligado ao anel e ao CH₃ (<b>éster</b>). O anel é aromático, mas sem OH direto não há fenol.'},
+{m:["C:1,0 C:2,1 C:2,3 C:1,4 C:0,3 C:0,1 OH:1,-2 NH:1,6 C:2,7 O:2,9 C:3,6","0=1 1-2 2=3 3-4 4=5 5-0 0-6 3-7 7-8 8=9 8-10"],a:['fenol','amida'],e:'Paracetamol: —OH no anel (<b>fenol</b>) e N ligado a C=O (<b>amida</b>, não amina).'}
+];
+const EXC={m:["C:0,1 C:1,0 OH:1,-2 C:2,1 C:3,0","0-1 1-2 1-3 3-4"],q:[1],e:'2-butanol: o carbono 2 liga 4 grupos diferentes: —H (escondido), —OH, —CH₃ e —CH₂CH₃. Todos os outros carbonos repetem algum grupo (ex.: CH₃ tem 3 H).'};
+const C=[
+{m:["C:0,1 C:1,0 NH2:1,-2 C:2,1 O:2,3 OH:3,0","0-1 1-2 1-3 3=4 3-5"],q:[1],h:'Carbonos com ligação dupla nunca são quirais. Procure o carbono com 4 grupos diferentes (há um H escondido).',e:'Alanina: C2 liga H, —NH₂, —CH₃ e —COOH.'},
+{m:["O:0,1 C:1,0 C:2,1 OH:2,3 C:3,0 OH:4,1","0=1 1-2 2-3 2-4 4-5"],q:[2],h:'O —CH₂OH tem dois H iguais, então não é quiral.',e:'Gliceraldeído: o C do meio liga H, —OH, —CHO e —CH₂OH.'},
+{m:["C:0,1 C:1,0 C:2,1 C:2,3 C:3,0 C:4,1 C:5,0","0-1 1-2 2-3 2-4 4-5 5-6"],q:[2],e:'3-metilexano: o C3 liga H, —CH₃, etil e propil (todos diferentes).'},
+{m:["C:0,1 C:1,0 Cl:1,-2 C:2,1 Cl:2,3 C:3,0","0-1 1-2 1-3 3-4 3-5"],q:[1,3],e:'2,3-diclorobutano: C2 e C3 ligam H, Cl, CH₃ e o outro carbono clorado. Há 2 carbonos quirais.'},
+{m:["C:1,0 C:2,1 C:2,3 C:1,4 C:0,3 C:0,1 C:3,0 OH:3,-2 C:4,1 NH:4,3 C:5,4 C:5,0","0=1 1-2 2=3 3-4 4=5 5-0 1-6 6-7 6-8 8-9 9-10 8-11"],q:[6,8],e:'Efedrina: o C que tem —OH (liga H, OH, anel e outro C) e o C que tem —NH (liga H, N, CH₃ e outro C). Carbonos do anel não são quirais.'},
+{m:["C:1,0 C:2,1 C:2,3 C:1,4 C:0,3 C:0,1 C:1,-2 C:2,-3 C:3,-2 C:2,-5 C:1,6 C:2,7 O:2,9 OH:3,6 C:0,7","0=1 1-2 2=3 3-4 4=5 5-0 0-6 6-7 7-8 7-9 3-10 10-11 11=12 11-13 10-14"],q:[10],e:'Ibuprofeno: só o C que liga H, —CH₃, —COOH e o anel é quiral. O C do isobutil tem dois CH₃ iguais, e o C=O e o anel não contam.'},
+{m:["O:0,1 C:1,0 C:2,1 OH:2,3 C:3,0 OH:3,-2 C:4,1 OH:4,3 C:5,0 OH:5,-2 C:6,1 OH:7,0","0=1 1-2 2-3 2-4 4-5 4-6 6-7 6-8 8-9 8-10 10-11"],q:[2,4,6,8],e:'Glicose (forma aberta): os 4 carbonos do meio, cada um com H, —OH e duas cadeias diferentes, são quirais. O C=O e o —CH₂OH não são.'}
+];
+const fm=s=>s.replace(/(\d+)/g,'<sub>$1</sub>');
+EXF.f='C3H6O3';EXC.f='C4H10O';
+['C2H6O','C3H6O','C2H4O2','C4H8O','C4H8O2','C6H6O','C3H9NO','C2H4ClNO','C9H8O4','C8H9NO2'].forEach((s,i)=>F[i].f=s);
+['C3H7NO2','C3H6O3','C7H16','C4H8Cl2','C10H15NO','C13H18O2','C6H12O6'].forEach((s,i)=>C[i].f=s);
+function draw(def,chiral){
+ const at=def[0].split(' ').map(t=>{const[l,c]=t.split(':'),[x,y]=c.split(',').map(Number);return{l,x:x*26,y:y*15}});
+ const bd=def[1].split(' ').map(t=>{const m=t.match(/^(\d+)([-=])(\d+)$/);return{a:+m[1],b:+m[3],d:m[2]==='='}});
+ const xs=at.map(a=>a.x),ys=at.map(a=>a.y),x0=Math.min(...xs)-28,y0=Math.min(...ys)-26,w=Math.max(...xs)-x0+28,h=Math.max(...ys)-y0+26;
+ let s=`<svg viewBox="${x0} ${y0} ${w} ${h}" width="${w*1.15}" role="img" aria-label="Fórmula estrutural em bastão">`;
+ bd.forEach(b=>{const p=at[b.a],q=at[b.b],dx=q.x-p.x,dy=q.y-p.y,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,s1=p.l==='C'?0:11,s2=q.l==='C'?0:11;
+  const o=b.d?[-2.6,2.6]:[0];o.forEach(k=>{s+=`<line x1="${p.x+ux*s1-uy*k}" y1="${p.y+uy*s1+ux*k}" x2="${q.x-ux*s2-uy*k}" y2="${q.y-uy*s2+ux*k}"/>`})});
+ at.forEach((a,i)=>{if(a.l!=='C')s+=`<text class="${a.l[0]==='C'?'Cl':a.l[0]}" x="${a.x}" y="${a.y+5}">${a.l.replace(/(\d)/,'<tspan dy="4" font-size="10">$1</tspan>')}</text>`;
+  else if(chiral)s+=`<g class="cc" data-i="${i}" tabindex="0" role="checkbox" aria-checked="false" aria-label="Carbono ${i+1}"><circle cx="${a.x}" cy="${a.y}" r="12"/><text x="${a.x+13}" y="${a.y-9}">✓</text></g>`});
+ return s+'</svg>';
+}
+const dots=i=>'●'.repeat(i+1)+'○'.repeat(9-i);
+function fCard(q,i,ex){
+ const boxes=Object.keys(FN).map(k=>`<label class="chk" data-k="${k}"><input type="checkbox" value="${k}" ${ex&&q.a.includes(k)?'checked':''} ${ex?'disabled':''}><span>${NM(k)}</span></label>`).join('');
+ return `<article class="card ${ex?'ex':''}" ${ex?'':`data-f="${i}"`}><div class="hd"><b>${ex?'Exemplo resolvido':'Questão '+(i+1)}</b>${ex?'':`<span class="lv" title="Dificuldade ${i+1} de 10">${dots(i)}</span>`}</div>
+ ${q.h&&!ex?`<div class="hint">💡 ${q.h}</div>`:''}<div class="mol"><span class="mf" title="Fórmula molecular">${fm(q.f)}</span>${draw(q.m,false)}</div>
+ <p style="margin:8px 0 2px">Marque as funções orgânicas presentes:</p>${boxes}
+ ${ex?`<div class="fb">${q.e}</div>`:`<div class="act"><button class="vv">Verificar</button><button class="gv ghost" hidden>Ver resposta (0 pts)</button><span class="fb"></span></div>`}</article>`;
+}
+function cCard(q,i,ex){
+ return `<article class="card ${ex?'ex':''}" ${ex?'':`data-c="${i}"`}><div class="hd"><b>${ex?'Exemplo resolvido':'Exercício '+(i+1)}</b>${ex?'':`<span class="lv" title="Dificuldade ${i+1} de 7">${'●'.repeat(i+1)+'○'.repeat(6-i)}</span>`}</div>
+ ${q.h&&!ex?`<div class="hint">💡 ${q.h}</div>`:''}<div class="mol"><span class="mf" title="Fórmula molecular">${fm(q.f)}</span>${ex?draw(q.m,true).replace(`class="cc" data-i="${q.q[0]}"`,`class="cc ok" data-i="${q.q[0]}"`):draw(q.m,true)}</div>
+ ${ex?`<div class="fb">O carbono quiral é o carbono ${q.q[0]+1} (círculo marcado). ${q.e}</div>`:`<p style="margin:8px 0 0"><b>Esta molécula tem ${q.q.length>1?q.q.length+' carbonos quirais':'1 carbono quiral'}.</b> Toque neles para marcá-los (✓). Cada vértice sem letra é um carbono.</p><div class="act"><button class="vv">Verificar</button><button class="gv ghost" hidden>Ver resposta (0 pts)</button><span class="fb"></span></div>`}</article>`;
+}
+const SUMF=`<div class="box sum"><h3>📘 Resumo: funções orgânicas</h3><p style="margin:0 0 8px">Função orgânica é um conjunto de compostos com o mesmo <b>grupo funcional</b>. Na fórmula de bastão, cada vértice e cada ponta sem letra é um carbono, e os H ligados ao carbono não são desenhados.</p><div class="grid">
+<div class="fn"><b>Álcool</b><code>–OH</code> em carbono saturado (etanol)</div><div class="fn"><b>Fenol</b><code>–OH</code> ligado ao anel aromático</div>
+<div class="fn"><b>Aldeído</b><code>–CHO</code>: C=O na ponta da cadeia</div><div class="fn"><b>Cetona</b><code>C=O</code> entre dois carbonos</div>
+<div class="fn"><b>Ácido carboxílico</b><code>–COOH</code></div><div class="fn"><b>Éster</b><code>–COO–</code> entre dois carbonos</div>
+<div class="fn"><b>Éter</b><code>–O–</code> entre dois carbonos</div><div class="fn"><b>Amina</b>N ligado a carbonos, sem C=O ao lado</div>
+<div class="fn"><b>Amida</b><code>–CO–N</code>: N ligado ao C=O</div><div class="fn"><b>Haleto orgânico</b>F, Cl, Br ou I ligado a carbono</div></div>
+<p style="margin:8px 0 0"><b>Pontuação:</b> cada questão vale 10 pontos. Se errar, você pode tentar de novo, mas perde 2 pontos a cada tentativa errada (5 erros = 0 ponto). Marque todas as funções certas e nenhuma a mais.</p></div>`;
+const SUMC=`<div class="box sum"><h3>📘 Resumo: carbono quiral (assimétrico)</h3><p style="margin:0">É o carbono <b>saturado</b> (só ligações simples) ligado a <b>quatro grupos diferentes</b>. Ele é chamado de C*.</p><ul style="margin:6px 0 0;padding-left:20px"><li>Conte também o H escondido do bastão (4 ligações no total).</li><li>Carbonos com ligação dupla ou tripla nunca são quirais; CH₃ e CH₂ também não (H repetido).</li><li>Compare os grupos inteiros, não só o átomo vizinho.</li><li>Com <i>n</i> carbonos quirais diferentes, existem até 2<sup>n</sup> estereoisômeros.</li></ul><p style="margin:8px 0 0"><b>Pontuação:</b> cada exercício vale 10 pontos. Se errar, você pode tentar de novo, mas perde 2 pontos a cada tentativa errada (5 erros = 0 ponto). Marque todos os carbonos quirais e nenhum a mais.</p></div>`;
+let S,done;
+function upd(){const mf=F.length*10,mc=C.length*10;
+ sf.textContent=S.f;sc.textContent=S.c;st.textContent=S.f+S.c;mfEl.textContent=mf;mcEl.textContent=mc;mt.textContent=mf+mc}
+const sf=document.getElementById('sf'),sc=document.getElementById('sc'),st=document.getElementById('st'),mfEl=document.getElementById('mf'),mcEl=document.getElementById('mc'),mt=document.getElementById('mt');
+function render(){S={f:0,c:0};
+ document.getElementById('app').innerHTML=`<h2>Parte 1 · Funções orgânicas</h2>${SUMF}${fCard(EXF,0,true)}<h3 style="margin:22px 0 0">Agora é com você: dificuldade crescente (1 a 10)</h3>${F.map((q,i)=>fCard(q,i)).join('')}
+ <h2>Parte 2 · Carbono quiral</h2>${SUMC}${cCard(EXC,0,true)}<h3 style="margin:22px 0 0">Agora é com você: 7 exercícios</h3>${C.map((q,i)=>cCard(q,i)).join('')}`;upd();window.scrollTo(0,0)}
+document.addEventListener('click',e=>{
+ const t=e.target;
+ if(t.id==='rs'){render();return}
+ const cc=t.closest('.cc');
+ if(cc){cc.classList.remove('bad');cc.classList.toggle('on');cc.setAttribute('aria-checked',cc.classList.contains('on'));return}
+ if(t.matches('.vv,.gv')){const card=t.closest('.card'),isF=card.dataset.f!==undefined,key=isF?'f':'c',q=isF?F[+card.dataset.f]:C[+card.dataset.c],ans=isF?q.a:q.q,
+  items=[...card.querySelectorAll(isF?'.chk':'.cc')],id=el=>isF?el.dataset.k:+el.dataset.i,on=el=>isF?el.querySelector('input').checked:el.classList.contains('on'),
+  sel=items.filter(on).map(id),wrong=sel.filter(k=>!ans.includes(k)),miss=ans.filter(k=>!sel.includes(k)),fb=card.querySelector('.fb');
+  let n=+card.dataset.err||0,fin=true,p=0,msg;
+  if(t.classList.contains('gv'))msg='<b>Resposta mostrada: 0 pontos.</b>';
+  else if(!wrong.length&&!miss.length){p=Math.max(0,10-2*n);msg=`<b>Correto! +${p} de 10 pontos.</b>`}
+  else{n++;card.dataset.err=n;
+   if(n>=5)msg='<b>Fim das tentativas: 0 pontos.</b>';
+   else{fin=false;items.forEach(el=>el.classList.toggle('bad',wrong.includes(id(el))));card.querySelector('.gv').hidden=false;
+    fb.innerHTML=`<b>Ainda não.</b> ${wrong.length?`Marcações erradas em vermelho: ${wrong.length}. `:''}${miss.length?'Ainda falta marcar algo. ':''}Agora esta questão vale <b>${10-2*n} pontos</b>. Tente de novo!`}}
+  if(fin){S[key]+=p;items.forEach(el=>{const c=ans.includes(id(el)),o=on(el);el.classList.remove('bad','on');if(o&&c)el.classList.add('ok');else if(o)el.classList.add('bad');else if(c)el.classList.add('miss')});
+   card.classList.add('lock');card.querySelectorAll('input,button').forEach(b=>b.disabled=true);
+   fb.innerHTML=msg+` ${isF?'Resposta: '+q.a.map(NM).join(' + ')+'. ':''}${q.e}`}
+  upd()}
+});
+document.addEventListener('change',e=>{const l=e.target.closest('.chk');if(l)l.classList.remove('bad')});
+document.addEventListener('keydown',e=>{const cc=e.target.closest&&e.target.closest('.cc');if(cc&&(e.key===' '||e.key==='Enter')){e.preventDefault();cc.classList.remove('bad');cc.classList.toggle('on');cc.setAttribute('aria-checked',cc.classList.contains('on'))}});
+render();
+</script>
+</body>
+</html>
